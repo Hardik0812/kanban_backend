@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+        }
+        p {
+            margin-bottom: 16px;
+            color: #666;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            margin-top: 24px;
+            border-top: 1px solid #ddd;
+            padding-top: 16px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Verify Your Email Address</h2>
+        <p>Hello, {{name}}</p>
+        <p>Please click the following link to verify your email address:</p>
+        <p><a href="{{path}}{{token}}">Verify Email Address</a></p>
+        <p>If you didn't request this, you can safely ignore this email.</p>
+        <div class="footer">
+            <p>Thanks,<br>Kanban Application</p>
+        </div>
+    </div>
+</body>
+</html>

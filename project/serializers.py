@@ -17,5 +17,5 @@ class ProjectSerializer(serializers.ModelSerializer):
         ]
         extra_kwargs = {
             "created_by": {"read_only": True},
-            "updated_by": {"read_only":True},
+            "updated_by": {"read_only": True},
         }

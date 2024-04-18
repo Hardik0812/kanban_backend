@@ -15,7 +15,8 @@ class CustomPasswordValidator:
                 "Password should contain at least one lowercase letter."
             )
         if not re.search(r"[!@#$%^&*()_+=\[\]{};':\",./<>?|\\]", password):
-            raise ValidationError({"error":"Password should contain at least one special character."}
+            raise ValidationError(
+                {"error": "Password should contain at least one special character."}
             )
 
     def get_help_text(self):

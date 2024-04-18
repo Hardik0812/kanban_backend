@@ -22,7 +22,13 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
-        return Response({"data":serializer.data,"message":"project get successfully","success":True})
+        return Response(
+            {
+                "data": serializer.data,
+                "message": "project get successfully",
+                "success": True,
+            }
+        )
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user, updated_by=self.request.user)
@@ -37,9 +43,3 @@ class ProjectViewSet(viewsets.ModelViewSet):
         project.save()
         return Response({"message": "Project has been deleted"})
 
-    @action(detail=True, methods=["post"])
-    def restore(self, request, pk=None):
-        project = self.get_object()
-        project.deleted = False
-        project.save()
-        return Response({"message": "Project has been restored"})

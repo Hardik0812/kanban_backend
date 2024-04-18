@@ -38,9 +38,7 @@ def register_user(request):
                     status=status.HTTP_409_CONFLICT,
                 )
 
-            otp_record = OtpModel.objects.filter(
-                email=email
-            ).first()
+            otp_record = OtpModel.objects.filter(email=email).first()
             print(otp_record)
 
             if not otp_record.verified:
@@ -65,11 +63,10 @@ def register_user(request):
             return Response(
                 {
                     "success": False,
-                    "message": f"Error occurred when registaring user"+str(e),
+                    "message": f"Error occurred when registaring user" + str(e),
                 },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
-
 
 
 @api_view(["POST"])
@@ -131,7 +128,7 @@ def forgot_user_password(request):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-
+@transaction.atomic
 @api_view(["POST"])
 def reset_user_password(request):
     if request.method == "POST":
@@ -213,18 +210,37 @@ def verify_otp(request):
         email = request.data.get("email").lower()
         expire_time = timezone.now()
 
-        otp_record = OtpModel.objects.filter(email=email, expires__gte=expire_time.timestamp()).order_by("createdAt").last()
-        
+        otp_record = (
+            OtpModel.objects.filter(email=email, expires__gte=expire_time.timestamp())
+            .order_by("createdAt")
+            .last()
+        )
+
         if otp_record:
             if otp_record.verified:
-                return Response({"success": False, "message": "OTP already verified"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {"success": False, "message": "OTP already verified"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
             if otp_record.otp == otp:
                 otp_record.verified = True
                 otp_record.save()
-                return Response({"success": True, "message": "OTP verified successfully"}, status=status.HTTP_200_OK)
+                return Response(
+                    {"success": True, "message": "OTP verified successfully"},
+                    status=status.HTTP_200_OK,
+                )
             else:
-                return Response({"success": False, "message": "Invalid OTP"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {"success": False, "message": "Invalid OTP"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
         else:
-            return Response({"success": False, "message": "OTP has been expired"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"success": False, "message": "OTP has been expired"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
     except Exception as e:
-        return Response({"success": False, "message": "Error occurred when verify otp"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(
+            {"success": False, "message": "Error occurred when verify otp"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )

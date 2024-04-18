@@ -1,7 +1,6 @@
 from django.urls import path
 from user.views import (
     register_user,
-    # verify_user_email,
     check_email,
     forgot_user_password,
     reset_user_password,
@@ -18,5 +17,4 @@ urlpatterns = [
     path("forgot-password", forgot_user_password, name="check_users"),
     path("reset-password", reset_user_password, name="check_users"),
     path("check-email", check_email, name="check_email"),
-    
 ]

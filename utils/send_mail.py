@@ -58,7 +58,7 @@ def send_forgot_password_email(subject, template, data):
         if template == "forgot-password-link.html":
             token = generate_token(data["email"], 2880)
             if token:
-                context["reset_link"] = app_url + "reset-password" + "?token="+ token
+                context["reset_link"] = app_url + "reset-password" + "?token=" + token
                 print("link", context["reset_link"])
                 context["name"] = data["name"]
 
@@ -87,8 +87,7 @@ def send_forgot_password_email(subject, template, data):
 
 def send_otp_email(subject, template, data):
     try:
-        context = {"email": data["email"],
-                   "otp":data["otp"]}
+        context = {"email": data["email"], "otp": data["otp"]}
 
         if template == "send-otp.html":
             context["email"] = data["email"]

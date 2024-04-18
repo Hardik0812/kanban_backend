@@ -44,8 +44,4 @@ class UserRegistrationSerializer(BasePasswordSerializer):
 
 class ResetPasswordSerializer(BasePasswordSerializer):
     class Meta(BasePasswordSerializer.Meta):
-        fields = [
-            "password",
-            "confirm_password",
-            "token"
-        ]
+        fields = ["password", "confirm_password", "token"]

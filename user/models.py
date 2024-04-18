@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 import uuid
 from django.utils import timezone
 
+
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field."""
 
@@ -42,7 +43,8 @@ class UserManager(BaseUserManager):
 
 class User(AbstractUser):
     """User model."""
-    username = models.CharField(null=True,max_length=120)
+
+    username = models.CharField(null=True, max_length=120)
     full_name = models.CharField(max_length=100)
     email = models.EmailField(_("email address"), unique=True)
     is_active = models.BooleanField(default=False)
@@ -61,13 +63,13 @@ class User(AbstractUser):
 
 class OtpModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.CharField(max_length=100) 
+    email = models.CharField(max_length=100)
     expires = models.IntegerField()
     otp = models.CharField(max_length=6)
     verified = models.BooleanField(default=False)
-    createdAt = models.DateTimeField(default=timezone.now) 
-    updatedAt = models.DateTimeField(auto_now=True) 
+    createdAt = models.DateTimeField(default=timezone.now)
+    updatedAt = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        self.updatedAt = timezone.now()  
+        self.updatedAt = timezone.now()
         super().save(*args, **kwargs)

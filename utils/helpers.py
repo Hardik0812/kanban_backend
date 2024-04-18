@@ -3,6 +3,7 @@ import os
 import jwt
 import random
 
+
 def generate_token(email=None, token_time=None):
     try:
         exp_time = datetime.now() + timedelta(minutes=token_time)
@@ -22,6 +23,7 @@ def decode_token(token):
         print(f"Error decoding token: {e}")
         return None
 
+
 def generate_otp():
-    otp = random.randint(100000,900000)
+    otp = random.randint(100000, 900000)
     return otp

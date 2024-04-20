@@ -20,6 +20,8 @@ from .serializers import ResetPasswordSerializer, UserRegistrationSerializer
 
 import threading
 
+from rest_framework_simplejwt.tokens import AccessToken
+
 
 @transaction.atomic
 @api_view(["POST"])
@@ -127,6 +129,7 @@ def forgot_user_password(request):
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
+
 
 @transaction.atomic
 @api_view(["POST"])
@@ -244,3 +247,46 @@ def verify_otp(request):
             {"success": False, "message": "Error occurred when verify otp"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
+# used Simple login to reset token
+@api_view(["POST"])
+def logout(request):
+    try:
+        authorization_header = request.headers.get('Authorization')
+        if not authorization_header:
+            return Response(
+                {"success": False, "message": "Authorization header missing."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        
+        token = authorization_header.split(' ')[1]
+        if not token:
+            return Response(
+                {"success": False, "message": "Token missing in Authorization header."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            decode = decode_token(token=token)
+            user = User.objects.filter(id=decode["user_id"]).first()
+            user.token = None
+            user.save()
+
+            return Response(
+                {"success": True, "message": "Logout successfull."},
+                status=status.HTTP_200_OK,
+            )
+        except Exception as e:
+            return Response(
+                {"success": False, "message": str(e)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+    except Exception as e:
+        return Response(
+            {"success": False, "message": "An error occurred while processing the request."},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+
+    
+
+

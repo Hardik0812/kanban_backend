@@ -6,6 +6,7 @@ from user.views import (
     reset_user_password,
     send_otp,
     verify_otp,
+    logout,
 )
 from user.auth_token import CustomTokenObtainPairView
 
@@ -14,6 +15,7 @@ urlpatterns = [
     path("verify-otp", verify_otp, name="verify_otp"),
     path("signup", register_user, name="register"),
     path("signin", CustomTokenObtainPairView.as_view(), name="login"),
+    path("logout", logout, name="logout"),
     path("forgot-password", forgot_user_password, name="check_users"),
     path("reset-password", reset_user_password, name="check_users"),
     path("check-email", check_email, name="check_email"),

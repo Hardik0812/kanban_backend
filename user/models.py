@@ -49,7 +49,7 @@ class User(AbstractUser):
     email = models.EmailField(_("email address"), unique=True)
     is_active = models.BooleanField(default=False)
     email_verified = models.BooleanField(default=False)
-    token = models.TextField(default="")
+    token = models.TextField(null=True)
 
     objects = UserManager()
 

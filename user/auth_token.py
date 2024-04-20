@@ -32,8 +32,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             }
         )
         self.user.last_login = now()
-        self.user.access_token = token["access"]
-        self.user.refresh_token = token["refresh"]
+        self.user.token = token["access"]
         self.user.save()
         token.update()
         data["success"] = True

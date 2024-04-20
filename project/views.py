@@ -12,6 +12,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
+    
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
@@ -42,4 +43,3 @@ class ProjectViewSet(viewsets.ModelViewSet):
         project.deleted = True
         project.save()
         return Response({"message": "Project has been deleted"})
-
